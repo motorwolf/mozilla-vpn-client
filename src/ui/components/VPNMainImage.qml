@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import QtQuick 2.5
+import QtQuick.Controls 2.14
 
 import Mozilla.VPN 1.0
 import compat 0.1
@@ -12,6 +13,7 @@ Rectangle {
     id: logo
 
     property var showVPNOnIcon: false
+    property var counter: 0
 
     color: "transparent"
     opacity: 1
@@ -361,6 +363,26 @@ Rectangle {
         sourceSize.height: logo.height
         sourceSize.width: logo.width
         visible: false
+    }
+
+    Button {
+        text: "State: " + logo.state + " Parent: " + parent.state
+        anchors.bottom: globe.top
+        onClicked: () => {
+            const fakeStates = [
+                "4",
+                "unstableOn",
+                "noSignalOn"
+            ];
+
+            logo.state = fakeStates[logo.counter];
+
+            if(logo.counter < fakeStates.length - 1) {
+                logo.counter += 1;
+            } else {
+                logo.counter = 0;
+            }
+        }
     }
 
     VPNLinearGradient {
